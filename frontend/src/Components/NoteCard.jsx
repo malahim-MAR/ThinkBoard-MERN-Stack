@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RateLimiter from '../Components/RateLimiter';
-import axios, { toFormData } from 'axios';
+import axios from 'axios';
 import { SquarePen, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router';
@@ -21,7 +21,6 @@ const NoteCard = () => {
                 setError(null);
             } catch (err) {
                 console.error('Error fetching notes:', err);
-
                 if (err.response?.status === 429) {
                     setIsRateLimited(true);
                 } else {
@@ -32,14 +31,12 @@ const NoteCard = () => {
                 setLoading(false);
             }
         };
-
         fetchNotes();
     }, []);
 
-    // --- Render logic ---
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-center h-screen bg-gray-50">
                 <span className="loading loading-dots loading-md"></span>
             </div>
         );
@@ -47,22 +44,18 @@ const NoteCard = () => {
 
     if (isRateLimited) {
         return (
-            <>
-                <div className='h-[100vh]'>
-                    <RateLimiter />
-
-                </div>
-            </>
-        )
-
+            <div className='h-[100vh] bg-gray-50'>
+                <RateLimiter />
+            </div>
+        );
     }
 
     if (error) {
         return (
-            <div className="flex flex-col justify-center items-center h-screen text-center text-error">
+            <div className="flex flex-col justify-center items-center h-screen text-center text-red-500 bg-gray-50">
                 <p>{error}</p>
                 <button
-                    className="btn btn-sm mt-3"
+                    className="mt-4 px-4 py-2 bg-gray-900 text-white rounded-md"
                     onClick={() => window.location.reload()}
                 >
                     Retry
@@ -72,53 +65,57 @@ const NoteCard = () => {
     }
 
     const handleDelete = async (e, id) => {
-
         e.preventDefault();
         if (!window.confirm("Are you sure you want to delete this note?")) return;
         try {
-            console.log("Deleting note with id:", id);
             await axios.delete(`http://localhost:5001/api/notes/${id}`);
             setNotes(notes.filter(note => note._id !== id));
             toast.success('Note deleted successfully');
         } catch (error) {
             console.error('Error deleting note:', error);
         }
-
-
-    }
+    };
 
     return (
-        <div className="p-7 flex flex-wrap justify-around gap-5 bg-base-200">
-            {notes.length > 0 ? (
-                notes.map((note) => (
-                    <Link to={`/notedetail/${note._id}`} key={note._id} className="no-underline">
-                        <div
-                            key={note.id}
-                            className="card w-96 bg-base-100 shadow-sm border border-base-300"
-                            style={{ borderTop: '3px solid #3DA74B' }}
-                        > 
-                            <div className="card-body">
-                                <h2 className="card-title">{note.title}</h2>
-                                <p>{note.content}</p>
-                                <div className="flex justify-between items-center card-actions">
-                                    <small className="text-gray-400">{note.updatedAt}</small>
-                                    <div className="flex gap-2">
-                                        <button className="btn btn-ghost btn-xs text-error" onClick={(e) => handleDelete(e, note._id)}>
-                                            <Trash2 size={14} />
+        <div className="notes-container">
+
+            <div className="notes-grid">
+                {notes.length > 0 ? (
+                    notes.map((note) => (
+                        <Link
+                            to={`/notedetail/${note._id}`}
+                            key={note._id}
+                            className="note-link"
+                        >
+                            <div className="note-card">
+                                <h2 className="note-title">{note.title}</h2>
+                                <p className="note-content">{note.content}</p>
+                                <div className="note-footer">
+                                    <small className="note-date">
+                                        {new Date(note.updatedAt).toLocaleString()}
+                                    </small>
+                                    <div className="note-actions">
+                                        <button
+                                            className="note-delete"
+                                            onClick={(e) => handleDelete(e, note._id)}
+                                        >
+                                            <Trash2 size={16} />
                                         </button>
-                                        <button className="btn btn-ghost btn-xs" >
-                                            <SquarePen size={14} />
+                                        <button className="note-edit">
+                                            <SquarePen size={16} />
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </Link>
-                ))
-            ) : (
-                <p className="text-center text-gray-500 mt-10">No notes available.</p>
-            )}
+                        </Link>
+                    ))
+                ) : (
+                    <p className="no-notes">No notes available.</p>
+                )}
+            </div>
         </div>
+
+
     );
 };
 

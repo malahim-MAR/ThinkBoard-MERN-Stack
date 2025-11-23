@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 const NoteDetailPage = () => {
   const { id } = useParams();
@@ -9,6 +11,8 @@ const NoteDetailPage = () => {
   const [loading, setLoading] = useState(false);
   const [newSaveTitle, setNewSaveTitle] = useState("");
   const [newSaveContent, setNewSaveContent] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -19,7 +23,7 @@ const NoteDetailPage = () => {
         setNewSaveTitle(res.data.title || "");
         setNewSaveContent(res.data.content || "");
       } catch (error) {
-        console.log("error fetching Note", error);
+        console.log("Error fetching note", error);
       } finally {
         setLoading(false);
       }
@@ -30,60 +34,68 @@ const NoteDetailPage = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log("Save Button Clicked")
-    console.log("title:", newSaveTitle)
-    console.log("content:", newSaveContent)
     try {
-      setLoading(true)
+      setLoading(true);
+
       await axios.put(`http://localhost:5001/api/notes/${id}`, {
         title: newSaveTitle,
         content: newSaveContent,
       });
 
-      toast.success("Note Updated Succesfully")
+      toast.success("Note updated successfully");
+      navigate("/");
     } catch (error) {
-      console.log("Error Not Saving", error)
+      console.log("Update error", error);
+      toast.error("Failed to update");
     } finally {
-      setLoading(false)
-
+      setLoading(false);
     }
+  };
 
-  }
-
-  if (loading) return <p className="text-forest-800">Loading...</p>;
-  if (!noteDetail) return <p className="text-red-600">Note not found.</p>;
+  if (loading) return <p className="detail-loading">Loading...</p>;
+  if (!noteDetail) return <p className="detail-error">Note not found.</p>;
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-forest-100 rounded-lg shadow-md">
-      <div>
-        <Link to={'/'} className="btn  btn-secondary">Back to Home</Link>
-      </div>
-      <form className="flex flex-col gap-4">
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">Title:</span>
-          </label>
-          <input
-            type="text"
-            className="input input-bordered input-forest w-full"
-            value={newSaveTitle}
-            onChange={(e) => setNewSaveTitle(e.target.value)}
-          />
+    <section className="detail-container">
+      <div className="detail-card">
+
+        <div className="detail-back">
+          <ArrowLeft size={18} color="#3ba74b" />
+          <Link to="/">Back to Home</Link>
         </div>
 
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">Content:</span>
-          </label>
-          <textarea
-            className="textarea textarea-forest w-full h-48 resize-none"
-            value={newSaveContent}
-            onChange={(e) => setNewSaveContent(e.target.value)}
-          />
-        </div>
-        <button className="btn btn-primary" onClick={handleEdit}>Save</button>
-      </form>
-    </div>
+        <h2 className="detail-title">Edit Note</h2>
+
+        <form onSubmit={handleEdit} className="detail-form">
+
+          <div className="detail-field">
+            <label className="detail-label">Title</label>
+            <input
+              type="text"
+              value={newSaveTitle}
+              onChange={(e) => setNewSaveTitle(e.target.value)}
+              className="detail-input"
+              placeholder="Update title..."
+            />
+          </div>
+
+          <div className="detail-field">
+            <label className="detail-label">Content</label>
+            <textarea
+              value={newSaveContent}
+              onChange={(e) => setNewSaveContent(e.target.value)}
+              className="detail-textarea"
+              placeholder="Update content..."
+            />
+          </div>
+
+          <button type="submit" className="detail-btn" disabled={loading}>
+            {loading ? "Saving..." : "Save Changes"}
+          </button>
+        </form>
+
+      </div>
+    </section>
   );
 };
 

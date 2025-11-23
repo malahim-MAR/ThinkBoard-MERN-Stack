@@ -1,5 +1,522 @@
-@import "tailwindcss";
+/* =========================================
+   ThinkBoard Modern Dark Theme CSS
+   Author: Consolidated for Navbar, Notes, Footer
+   ========================================= */
 
-@plugin "daisyui" {
-  themes: forest;
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* Global */
+body,
+html {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #0f111a, #1a1c2a);
+  color: #e0e0e0;
+  scroll-behavior: smooth;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3ba74b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1c28;
+}
+
+/* =========================================
+   Navbar
+   ========================================= */
+.navbar-container {
+  background: linear-gradient(to right, #0f111a, #1a1c2a);
+  padding: 1rem 2.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title {
+  font-weight: 800;
+  font-size: 1.75rem;
+  color: #3ba74b;
+  letter-spacing: 1px;
+}
+
+.navbar-create-btn {
+  display: flex;
+  align-items: center;
+  background: #3ba74b;
+  color: #0f111a;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 167, 75, 0.5);
+}
+
+.navbar-create-btn:hover {
+  background: #28a745;
+  box-shadow: 0 6px 16px rgba(59, 167, 75, 0.7);
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   Notes / Cards
+   ========================================= */
+.notes-container {
+  min-height: 100vh;
+  padding: 2.5rem;
+}
+
+.notes-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.note-card {
+  background: rgba(30, 30, 40, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.note-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(59, 167, 75, 0.5);
+}
+
+.note-title {
+  color: #3ba74b;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-content {
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  flex-grow: 1;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.75rem;
+}
+
+.note-date {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+.note-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.note-delete,
+.note-edit {
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  background: rgba(59, 167, 75, 0.1);
+  color: #3ba74b;
+  border: none;
+  cursor: pointer;
+}
+
+.note-delete:hover {
+  background: rgba(220, 38, 38, 0.2);
+  color: #dc2626;
+}
+
+.note-edit:hover {
+  background: rgba(59, 167, 75, 0.3);
+}
+
+.no-notes {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+/* =========================================
+   Footer
+   ========================================= */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  background: linear-gradient(to right, #0f111a, #1a1c2a);
+  color: #cbd5e1;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-logo {
+  fill: #3ba74b;
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.footer-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.footer-icon svg {
+  fill: #94a3b8;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-icon:hover svg {
+  fill: #3ba74b;
+  transform: scale(1.2);
+}
+
+/* =========================================
+   Responsive Adjustments
+   ========================================= */
+@media (max-width: 640px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-right {
+    justify-content: center;
+  }
+
+  .notes-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .notes-grid {
+    gap: 2.5rem;
+  }
+}
+
+
+
+/* CREATE PAGE */
+/* ---------------------- */
+/* CREATE PAGE CONTAINER  */
+/* ---------------------- */
+
+.create-container {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f111a, #1a1c2a);
+  font-family: 'Inter', sans-serif;
+}
+
+/* ---------------------- */
+/* CREATE CARD (Glass UI) */
+/* ---------------------- */
+
+.create-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: rgba(30, 30, 40, 0.72);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------------------- */
+/* HEADER + BACK BUTTON   */
+/* ---------------------- */
+
+.create-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.create-back a {
+  font-size: 0.875rem;
+  color: #3ba74b;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.create-back a:hover {
+  opacity: 0.8;
+}
+
+/* ---------------------- */
+/* TITLE                  */
+/* ---------------------- */
+
+.create-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #3ba74b;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------------------- */
+/* FORM FIELDS            */
+/* ---------------------- */
+
+.create-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #d1d5db;
+  margin-bottom: 4px;
+}
+
+.create-input,
+.create-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: #1d1f2b;
+  color: #e5e7eb;
+  border: 1px solid transparent;
+  outline: none;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+.create-input:focus,
+.create-textarea:focus {
+  border-color: #3ba74b;
+  box-shadow: 0 0 0 3px rgba(59, 167, 75, 0.25);
+}
+
+.create-textarea {
+  height: 150px;
+  resize: none;
+}
+
+/* ---------------------- */
+/* SUBMIT BUTTON          */
+/* ---------------------- */
+
+.create-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.85rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  background: #3ba74b;
+  color: #0f111a;
+  box-shadow: 0 4px 12px rgba(59, 167, 75, 0.45);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.create-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 167, 75, 0.65);
+}
+
+.create-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------------------- */
+/* END CREATE PAGE CSS    */
+/* ---------------------- */
+
+
+
+
+/* Note details Page */
+/* -------------------------- */
+/* Note Detail Page Container */
+/* -------------------------- */
+
+.detail-container {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f111a, #1a1c2a);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Card */
+.detail-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: rgba(30, 30, 40, 0.7);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* Back Button */
+.detail-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.detail-back a {
+  color: #3ba74b;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.detail-back a:hover {
+  opacity: 0.8;
+}
+
+/* Title */
+.detail-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #3ba74b;
+  margin-bottom: 1.5rem;
+}
+
+/* Form */
+.detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.detail-label {
+  color: #d1d5db;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.detail-input,
+.detail-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: #1d1f2b;
+  color: #e5e7eb;
+  border: 1px solid transparent;
+  outline: none;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+.detail-input:focus,
+.detail-textarea:focus {
+  border-color: #3ba74b;
+  box-shadow: 0 0 0 3px rgba(59, 167, 75, 0.25);
+}
+
+.detail-textarea {
+  height: 180px;
+  resize: none;
+}
+
+/* Button */
+.detail-btn {
+  width: 100%;
+  padding: 0.9rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  background: #3ba74b;
+  color: #0f111a;
+  box-shadow: 0 4px 12px rgba(59, 167, 75, 0.45);
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.detail-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 167, 75, 0.6);
+}
+
+.detail-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Loading & Error */
+.detail-loading {
+  color: #3ba74b;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.detail-error {
+  color: #ef4444;
+  text-align: center;
+  margin-top: 50px;
 }

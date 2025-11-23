@@ -3,7 +3,7 @@ import NoteCard from '../Components/NoteCard'
 
 const HomePage = () => {
     return (
-        <div><NoteCard /></div>
+        <div className='h-screen'><NoteCard /></div>
     )
 }
 
